@@ -22,6 +22,27 @@ slice of. Key deviations from that doc, so you don't assume more is built than a
   Cognitive flexibility, selective attention, inhibitory control, and multi-domain combined challenges
   (doc §11) are not built.
 
+## Deployment
+
+Deployed to GitHub Pages via `.github/workflows/deploy.yml` (lint + test + typecheck, then build +
+`actions/deploy-pages`) on every push to `main`. Two things only make sense together with that target:
+
+- `vite.config.ts` sets `base: "/IQ-Training-Game/"` — a project Pages site is served from a subpath, not
+  the domain root. If the repo is ever renamed, this must change to match.
+- `src/main.tsx` uses `HashRouter`, not `BrowserRouter` — GitHub Pages is a static host with no
+  server-side rewrite, so a hard refresh on a path-based route (e.g. `/train/fluidReasoning`) would 404.
+  Routes are `/#/train/fluidReasoning` etc. Don't switch back to `BrowserRouter` without also adding a
+  `404.html` SPA-redirect fallback.
+
+One manual, one-time repo setting is required and can't be done from the CLI: **Settings → Pages →
+Build and deployment → Source: "GitHub Actions"**. Until that's set, the workflow's `deploy` job will
+fail even though `build` succeeds.
+
+`public/` holds the PWA manifest and icons (`icon-192.png`, `icon-512.png`, `apple-touch-icon.png`,
+`favicon-32.png`) — rendered from `public/../` (scratch) SVG via a headless-Chromium screenshot script,
+not checked into the repo; regenerate by re-running that approach if the mark ever changes, there's no
+build step that produces them.
+
 ## Commands
 
 ```bash
