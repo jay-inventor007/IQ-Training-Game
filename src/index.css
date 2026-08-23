@@ -2,8 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  /* Kill the default gray tap-flash on touch devices — the app has its own
+     tactile feedback (active states, pulse-confirm / flatline-reject). */
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   @apply bg-console-bg text-console-text antialiased font-sans;
+  /* A downward swipe mid-session (esp. during a timed processing-speed
+     item) shouldn't trigger a browser pull-to-refresh. */
+  overscroll-behavior-y: none;
+  /* Safe-area insets for notches / rounded corners / home indicators, both
+     in a browser tab (viewport-fit=cover) and installed standalone. */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+header {
+  padding-top: env(safe-area-inset-top);
+}
+
+button,
+a {
+  /* Remove the ~300ms tap delay and double-tap-to-zoom on interactive
+     elements, without disabling pinch-zoom app-wide (accessibility). */
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
 }
 
 ::selection {

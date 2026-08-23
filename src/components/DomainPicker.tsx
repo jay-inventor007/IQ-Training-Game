@@ -27,7 +27,7 @@ export function DomainPicker({ basePath }: { basePath: string }) {
           <Link
             key={domain}
             to={`${basePath}/${domain}`}
-            className="flex items-center gap-3 sm:gap-5 px-3 sm:px-5 py-3 hover:bg-console-panel2 transition group"
+            className="flex items-center gap-3 sm:gap-5 px-3 sm:px-5 py-3 hover:bg-console-panel2 active:bg-console-panel2 transition group"
           >
             <div className="w-12 sm:w-16 shrink-0">
               <div className="font-mono text-xs sm:text-sm font-semibold tracking-widest" style={{ color: meta.color }}>

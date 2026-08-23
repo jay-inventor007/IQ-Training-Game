@@ -50,12 +50,12 @@ export function OptionGrid({ item, onSelect, disabled, revealCorrectId, selected
             onClick={() => onSelect(option.id)}
             disabled={disabled}
             style={isCorrect ? { borderColor: channelColor, backgroundColor: `${channelColor}1a` } : undefined}
-            className={`flex items-center gap-2.5 border p-2.5 transition disabled:cursor-default text-left ${
+            className={`flex items-center gap-2.5 border p-2.5 min-h-[44px] transition disabled:cursor-default text-left active:scale-[0.97] ${
               isCorrect
                 ? ""
                 : isWrongSelected
                   ? "border-alarm bg-alarm/10"
-                  : "border-console-line bg-console-panel2 hover:border-console-text/40 disabled:opacity-60"
+                  : "border-console-line bg-console-panel2 hover:border-console-text/40 active:border-console-text/60 disabled:opacity-60"
             }`}
           >
             <span className="font-mono text-[10px] text-console-muted border border-console-line w-5 h-5 flex items-center justify-center shrink-0">

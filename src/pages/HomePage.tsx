@@ -16,14 +16,14 @@ export function HomePage() {
         <div className="flex flex-wrap gap-3 mt-4">
           <Link
             to="/train"
-            className="inline-flex items-center gap-2 border border-console-text/30 bg-console-text text-console-bg px-4 py-2 font-mono text-xs tracking-widest hover:bg-white transition"
+            className="inline-flex items-center gap-2 border border-console-text/30 bg-console-text text-console-bg px-4 py-2 min-h-[44px] font-mono text-xs tracking-widest hover:bg-white active:scale-[0.97] transition"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-console-bg" aria-hidden="true" />
             TRAINING MODE
           </Link>
           <Link
             to="/assess"
-            className="inline-flex items-center gap-2 border border-console-line px-4 py-2 font-mono text-xs tracking-widest text-console-text hover:border-console-text/50 transition"
+            className="inline-flex items-center gap-2 border border-console-line px-4 py-2 min-h-[44px] font-mono text-xs tracking-widest text-console-text hover:border-console-text/50 active:scale-[0.97] active:bg-console-panel2 transition"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-channel-spd" aria-hidden="true" />
             ASSESSMENT MODE

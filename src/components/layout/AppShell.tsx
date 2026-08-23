@@ -38,7 +38,7 @@ export function AppShell() {
               to={link.to}
               end={link.end}
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 sm:px-4 py-2 font-mono text-[11px] tracking-widest border-r border-console-line/70 whitespace-nowrap transition ${
+                `flex items-center gap-1.5 px-3 sm:px-4 py-3 min-h-[44px] font-mono text-[11px] tracking-widest border-r border-console-line/70 whitespace-nowrap transition active:bg-console-panel2 ${
                   isActive ? "text-console-text bg-console-panel" : "text-console-muted hover:text-console-text"
                 }`
               }

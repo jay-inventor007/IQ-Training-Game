@@ -31,4 +31,6 @@ reasoning, processing speed, and quantitative reasoning.
 | `npm run test:watch` | Run tests in watch mode |
 
 All progress is stored locally in the browser (`localStorage`) — there is no backend or account system
-yet.
+yet. The app installs as a PWA on mobile and desktop (Chrome/Edge: "Install app"; Safari on iOS: Share →
+Add to Home Screen) and, after that first visit, runs fully offline — no network needed to train,
+assess, or view your profile.

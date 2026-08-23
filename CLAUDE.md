@@ -44,10 +44,38 @@ One manual, one-time repo setting is required and can't be done from the CLI: **
 Build and deployment → Source: "GitHub Actions"**. Until that's set, the workflow's `deploy` job will
 fail even though `build` succeeds.
 
-`public/` holds the PWA manifest and icons (`icon-192.png`, `icon-512.png`, `apple-touch-icon.png`,
-`favicon-32.png`) — rendered from `public/../` (scratch) SVG via a headless-Chromium screenshot script,
-not checked into the repo; regenerate by re-running that approach if the mark ever changes, there's no
-build step that produces them.
+`public/` holds the app icons (`icon-192.png`, `icon-512.png`, `apple-touch-icon.png`, `favicon-32.png`)
+— rendered from a scratch SVG via a headless-Chromium screenshot script, not checked into the repo;
+regenerate by re-running that approach if the mark ever changes, there's no build step that produces
+them. The manifest itself is *not* a static file in `public/` — see Offline / PWA below.
+
+## Offline / PWA
+
+The app is designed to run with zero network dependency after one online visit — this is a product
+requirement, not a nice-to-have (see PRODUCT.md). Three pieces make that true together:
+
+- **Service worker** (`vite-plugin-pwa`, configured in `vite.config.ts`): precaches every built asset
+  (JS, CSS, HTML, icons, self-hosted font files) at install time via Workbox's `generateSW` mode.
+  `registerType: "autoUpdate"` means a new deploy silently takes over on next load — there's no
+  user-facing "update available" prompt, which is a deliberate simplicity tradeoff for now.
+- **Self-hosted fonts** (`@fontsource/ibm-plex-mono`, `@fontsource/ibm-plex-sans`, imported in
+  `main.tsx`): IBM Plex was previously loaded from Google Fonts' CDN, which would silently break offline
+  (or on a flaky connection) even with a service worker, since that's a separate cross-origin fetch. Only
+  the **`latin`** subset and the four weights actually used (400/500/600/700) are imported —
+  `@fontsource/*`'s unrestricted import pulls every language subset in both woff and woff2, which bloated
+  the precache from ~536KB to ~933KB for zero benefit (the UI is English-only). If you add a new weight
+  or family, import the specific `latin-<weight>.css` path, not the bare package.
+- **The manifest is plugin-generated, not a static file**: it lives in `vite.config.ts`'s `VitePWA({
+  manifest: {...} })` config, not `public/manifest.webmanifest`. Don't add a static manifest file back —
+  the plugin writes `dist/manifest.webmanifest` itself, and two sources of truth will drift.
+
+**Verifying offline behavior actually works** (this doesn't show up in a normal `npm run dev` — the
+plugin's `devOptions.enabled` is deliberately `false` so the dev server never runs a service worker):
+build, serve the `dist/` output (`npx vite preview`), load it once with network on so the SW installs and
+precaches, then actually cut network (e.g. a Playwright context's `setOffline(true)`, or DevTools'
+Network → Offline) and reload. A visual check alone won't catch a broken precache; confirm the reload
+after going offline still renders and that you can complete a full session (generate → answer → persist)
+with zero network.
 
 ## Commands
 
@@ -89,6 +117,13 @@ the full rationale. Two rules that are easy to violate accidentally:
   colors from `MOTIF_COLORS` (auto-patterned via `ShapeIcon`) rather than inventing new raw hex values.
 - **Never re-add a per-item reset `useEffect` to `ChallengeRunner`** — see the gotcha documented below;
   it's the same class of bug regardless of styling changes.
+
+Mobile touch conventions, applied consistently across nav, buttons, and challenge options: every
+interactive element gets `min-h-[44px]` (Apple HIG minimum tap target) and an `active:` state (hover
+alone never fires on touch — `active:scale-[0.97]` and/or `active:bg-console-panel2` give tap feedback).
+Global `touch-action: manipulation` on `button, a` (in `index.css`) kills the ~300ms tap delay and
+double-tap-to-zoom without disabling pinch-zoom app-wide, which `user-scalable=no` would do and which is
+an accessibility regression — don't reach for that instead.
 
 ### The `ChallengeItem` contract
 

@@ -85,13 +85,13 @@ function AssessmentSession({ domain }: { domain: Domain }) {
             <div className="flex justify-center gap-3 pt-2">
               <Link
                 to="/assess"
-                className="px-4 py-2 border border-console-line font-mono text-xs tracking-widest text-console-text hover:border-console-text/50 transition"
+                className="px-4 py-2 min-h-[44px] flex items-center border border-console-line font-mono text-xs tracking-widest text-console-text hover:border-console-text/50 active:scale-[0.97] active:bg-console-panel2 transition"
               >
                 ANOTHER CHANNEL
               </Link>
               <Link
                 to="/profile"
-                className="px-4 py-2 border border-console-text/30 bg-console-text text-console-bg font-mono text-xs tracking-widest hover:bg-white transition"
+                className="px-4 py-2 min-h-[44px] flex items-center border border-console-text/30 bg-console-text text-console-bg font-mono text-xs tracking-widest hover:bg-white active:scale-[0.97] transition"
               >
                 VIEW PROFILE
               </Link>
