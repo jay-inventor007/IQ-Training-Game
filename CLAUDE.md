@@ -4,10 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A procedurally-generated cognitive training web app (React + Vite), scoped as a practical MVP of the
-much larger product vision in [`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md). Read that doc for the
-"why" behind design choices below — it is the product spec this codebase is deliberately a simplified
-slice of. Key deviations from that doc, so you don't assume more is built than actually is:
+**COGNOSCOPE** — a procedurally-generated cognitive training web app (React + Vite), styled as a clinical
+monitoring instrument (bedside vitals monitor / oscilloscope), not a generic dashboard. See
+[`DESIGN.md`](DESIGN.md) for the visual system (tokens, the channel/waveform metaphor, the accessibility
+rules) and [`PRODUCT.md`](PRODUCT.md) for durable product truth (users, positioning, constraints). Both
+are normative — read them before touching UI or product framing.
+
+It's scoped as a practical MVP of the much larger product vision in
+[`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md). Read that doc for the "why" behind design choices
+below — it is the product spec this codebase is deliberately a simplified slice of. Key deviations from
+that doc, so you don't assume more is built than actually is:
 
 - **Stack**: React + Vite web app, not Godot/Unity mobile. Chosen for fast iteration on the cognitive
   engine; a native port is future work, not started.
@@ -71,6 +77,19 @@ The code follows the three-layer split from `docs/PRODUCT_VISION.md` §4:
 - **Psychometric engine** — `src/engine/ability.ts` (adaptive difficulty + percentile) +
   `src/store/useProfileStore.ts` (per-domain ability state, persisted).
 
+### Visual design system
+
+`src/theme/channels.ts` (per-domain color/abbreviation/waveform-shape/scroll-speed) and
+`src/theme/motifs.ts` (the 6-color, colorblind-accessible puzzle-content palette, each color paired with
+a unique SVG fill pattern) are the single source of truth for the instrument look — see `DESIGN.md` for
+the full rationale. Two rules that are easy to violate accidentally:
+
+- **Never introduce a color-only distinction.** PRODUCT.md's accessibility section makes this a hard
+  requirement, not a preference. If you add a puzzle domain that shows multiple colored options, pull
+  colors from `MOTIF_COLORS` (auto-patterned via `ShapeIcon`) rather than inventing new raw hex values.
+- **Never re-add a per-item reset `useEffect` to `ChallengeRunner`** — see the gotcha documented below;
+  it's the same class of bug regardless of styling changes.
+
 ### The `ChallengeItem` contract
 
 Every domain generator (`src/engine/generators/*.ts`) is a pure function
@@ -89,12 +108,15 @@ and "check cognitive domain" steps (difficulty is generator-supplied, not indepe
 ### Adding a new cognitive domain
 
 1. Add the `Domain` literal to `DOMAINS` (+ labels/descriptions) in `src/engine/types.ts`.
-2. Write a generator in `src/engine/generators/<name>.ts` and register it in
+2. Add a `ChannelMeta` entry (code, color, waveform shape, scroll duration) to `CHANNELS` in
+   `src/theme/channels.ts` — pick a waveform style and color that isn't already used, and never reuse
+   the reserved alarm red.
+3. Write a generator in `src/engine/generators/<name>.ts` and register it in
    `src/engine/generators/index.ts`'s `GENERATORS` map.
-3. Add a stimulus view component in `src/components/domains/` (must call the `onReady` prop once the
+4. Add a stimulus view component in `src/components/domains/` (must call the `onReady` prop once the
    player can start answering — see below) and register it in `ChallengeRunner.tsx`'s `STIMULUS_VIEWS`.
-4. Add an option-rendering case in `src/components/challenge/OptionGrid.tsx`'s `OptionContent` switch.
-5. Add a test case to `src/engine/__tests__/generators.test.ts` — it iterates `DOMAINS` automatically,
+5. Add an option-rendering case in `src/components/challenge/OptionGrid.tsx`'s `OptionContent` switch.
+6. Add a test case to `src/engine/__tests__/generators.test.ts` — it iterates `DOMAINS` automatically,
    so a new domain is covered once it's registered.
 
 ### Adaptive difficulty flow, and a non-obvious gotcha

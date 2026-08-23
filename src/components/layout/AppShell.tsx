@@ -2,10 +2,10 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useProfileStore } from "@/store/useProfileStore";
 
 const NAV_LINKS = [
-  { to: "/", label: "Home", end: true },
-  { to: "/train", label: "Training" },
-  { to: "/assess", label: "Assessment" },
-  { to: "/profile", label: "Profile" },
+  { to: "/", label: "HOME", end: true },
+  { to: "/train", label: "TRAIN" },
+  { to: "/assess", label: "ASSESS" },
+  { to: "/profile", label: "PROFILE" },
 ];
 
 export function AppShell() {
@@ -13,33 +13,47 @@ export function AppShell() {
   const streakDays = useProfileStore((s) => s.streakDays);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="border-b border-slate-800 px-4 sm:px-8 py-3">
-        <div className="flex items-center justify-between gap-3">
-          <span className="font-semibold tracking-tight text-lg whitespace-nowrap">Cognitive Trainer</span>
-          <div className="flex items-center gap-3 text-sm text-slate-400 whitespace-nowrap shrink-0">
-            <span title="Total XP">⚡ {xp}</span>
-            <span title="Day streak">🔥 {streakDays}</span>
+    <div className="min-h-screen flex flex-col bg-console-bg">
+      <header className="border-b border-console-line px-4 sm:px-8">
+        <div className="flex items-center justify-between gap-3 py-3">
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className="h-2 w-2 rounded-full bg-channel-flu shadow-[0_0_6px_theme(colors.channel.flu)]" aria-hidden="true" />
+            <span className="font-mono font-semibold tracking-[0.2em] text-sm sm:text-base">COGNOSCOPE</span>
+          </div>
+          <div className="flex items-center gap-4 font-mono text-xs whitespace-nowrap shrink-0">
+            <span>
+              <span className="text-console-muted mr-1">XP</span>
+              <span className="text-console-text tabular-nums">{xp}</span>
+            </span>
+            <span>
+              <span className="text-console-muted mr-1">STRK</span>
+              <span className="text-console-text tabular-nums">{streakDays}d</span>
+            </span>
           </div>
         </div>
-        <nav className="flex items-center gap-1 sm:gap-2 mt-2 -mx-1 px-1 overflow-x-auto">
+        <nav className="flex items-center -mx-1 px-1 overflow-x-auto border-t border-console-line/70">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.end}
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition whitespace-nowrap ${
-                  isActive ? "bg-cyan-500/15 text-cyan-300" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                `flex items-center gap-1.5 px-3 sm:px-4 py-2 font-mono text-[11px] tracking-widest border-r border-console-line/70 whitespace-nowrap transition ${
+                  isActive ? "text-console-text bg-console-panel" : "text-console-muted hover:text-console-text"
                 }`
               }
             >
-              {link.label}
+              {({ isActive }) => (
+                <>
+                  <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-channel-flu" : "bg-console-line"}`} aria-hidden="true" />
+                  {link.label}
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
       </header>
-      <main className="flex-1 px-4 sm:px-8 py-8">
+      <main className="flex-1 px-4 sm:px-8 py-8 bg-grid-fine bg-grid">
         <div className="max-w-4xl mx-auto">
           <Outlet />
         </div>

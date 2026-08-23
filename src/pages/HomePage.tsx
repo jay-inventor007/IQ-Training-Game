@@ -3,28 +3,36 @@ import { DomainPicker } from "@/components/DomainPicker";
 
 export function HomePage() {
   return (
-    <div className="space-y-10">
-      <section>
-        <h1 className="text-2xl font-semibold mb-2">Train your cognitive edge</h1>
-        <p className="text-slate-400 max-w-2xl">
-          Procedurally generated challenges across five cognitive domains, adapting to your ability as you play.
-          No fixed level cap — the system keeps looking for your ceiling.
+    <div className="space-y-6">
+      <section className="border border-console-line bg-console-panel px-4 sm:px-5 py-4">
+        <div className="flex items-center gap-2 font-mono text-[11px] tracking-widest text-console-muted">
+          <span className="h-1.5 w-1.5 rounded-full bg-channel-flu animate-pulse-flash" style={{ animationIterationCount: "infinite", animationDuration: "2.4s" }} aria-hidden="true" />
+          5-CHANNEL COGNITIVE MONITOR
+        </div>
+        <p className="text-console-muted text-sm max-w-2xl mt-2">
+          Every problem is generated and validated on the spot, then targeted to your measured ability — no
+          fixed level cap, no repeated question bank. The system keeps searching for your ceiling.
         </p>
-        <div className="flex gap-3 mt-5">
-          <Link to="/train" className="px-4 py-2 rounded-lg bg-cyan-500 text-slate-950 font-medium hover:bg-cyan-400">
-            Start training
+        <div className="flex flex-wrap gap-3 mt-4">
+          <Link
+            to="/train"
+            className="inline-flex items-center gap-2 border border-console-text/30 bg-console-text text-console-bg px-4 py-2 font-mono text-xs tracking-widest hover:bg-white transition"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-console-bg" aria-hidden="true" />
+            TRAINING MODE
           </Link>
           <Link
             to="/assess"
-            className="px-4 py-2 rounded-lg border border-slate-700 text-slate-200 font-medium hover:bg-slate-800"
+            className="inline-flex items-center gap-2 border border-console-line px-4 py-2 font-mono text-xs tracking-widest text-console-text hover:border-console-text/50 transition"
           >
-            Take an assessment
+            <span className="h-1.5 w-1.5 rounded-full bg-channel-spd" aria-hidden="true" />
+            ASSESSMENT MODE
           </Link>
         </div>
       </section>
 
       <section>
-        <h2 className="text-lg font-medium mb-3">Pick a domain to train</h2>
+        <div className="font-mono text-[11px] tracking-widest text-console-muted mb-2 px-1">CHANNELS — SELECT TO TRAIN</div>
         <DomainPicker basePath="/train" />
       </section>
     </div>

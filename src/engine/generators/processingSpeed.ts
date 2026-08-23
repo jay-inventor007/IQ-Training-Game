@@ -1,6 +1,7 @@
 import type { ChallengeItem, ChallengeOption, Generator } from "../types";
 import { pick } from "@/lib/random";
 import type { ShapeKind } from "./fluidReasoning";
+import { MOTIF_COLORS } from "@/theme/motifs";
 
 /**
  * Processing speed: a target shape/color is shown, then a stimulus that
@@ -18,7 +19,7 @@ export interface DiscriminationContent {
 }
 
 const SHAPES: ShapeKind[] = ["circle", "square", "triangle", "star", "hexagon", "diamond"];
-const COLORS = ["#ef4444", "#3b82f6", "#22c55e", "#eab308", "#a855f7", "#06b6d4"];
+const COLORS = [...MOTIF_COLORS];
 
 export const generateProcessingSpeed: Generator<DiscriminationContent> = (difficulty, rng) => {
   const d = Math.max(0, difficulty);

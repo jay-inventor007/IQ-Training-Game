@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import type { ChallengeItem } from "@/engine/types";
 import type { PolyominoContent } from "@/engine/generators/spatialReasoning";
+import { CHANNELS } from "@/theme/channels";
+
+const SPA_COLOR = CHANNELS.spatialReasoning.color;
 
 function CellGrid({
   gridSize,
@@ -13,15 +16,13 @@ function CellGrid({
 }) {
   const filled = new Set(cells.map(([x, y]) => `${x},${y}`));
   return (
-    <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}>
+    <div className="grid gap-px bg-console-line border border-console-line" style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}>
       {Array.from({ length: gridSize }).map((_, y) =>
         Array.from({ length: gridSize }).map((_, x) => (
           <div
             key={`${x}-${y}`}
-            style={{ width: cellSize, height: cellSize }}
-            className={`rounded-sm ${
-              filled.has(`${x},${y}`) ? "bg-emerald-400" : "bg-slate-800 border border-slate-700"
-            }`}
+            style={{ width: cellSize, height: cellSize, backgroundColor: filled.has(`${x},${y}`) ? SPA_COLOR : undefined }}
+            className={filled.has(`${x},${y}`) ? "" : "bg-console-panel2"}
           />
         )),
       )}
@@ -40,8 +41,8 @@ export function RotationStimulus({ item, onReady }: RotationStimulusProps) {
   }, [item.id, onReady]);
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <p className="text-sm text-slate-400">Which option is this shape, rotated?</p>
+    <div className="flex flex-col items-center gap-3">
+      <p className="font-mono text-[11px] tracking-widest text-console-muted">WHICH OPTION IS THIS SHAPE, ROTATED?</p>
       <CellGrid gridSize={item.content.gridSize} cells={item.content.baseCells} cellSize={28} />
     </div>
   );

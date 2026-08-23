@@ -1,7 +1,11 @@
-# Cognitive Trainer
+# COGNOSCOPE
 
-Procedurally-generated cognitive training game (React + Vite). See
-[`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md) for the full product vision and
+An adaptive cognitive-training instrument (React + Vite), styled as a bedside monitor rather than a
+dashboard — five cognitive domains each render as a monitor **channel** with their own color, waveform,
+and abbreviation. Live at **https://jay-inventor007.github.io/IQ-Training-Game/**.
+
+See [`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md) for the full product vision,
+[`PRODUCT.md`](PRODUCT.md) for durable product truth, [`DESIGN.md`](DESIGN.md) for the visual system, and
 [`CLAUDE.md`](CLAUDE.md) for architecture notes.
 
 ## Getting started

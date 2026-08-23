@@ -9,9 +9,9 @@ export function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold mb-1">Mind Profile</h1>
-        <p className="text-sm text-slate-400">
-          {xp} XP · {streakDays} day streak
+        <div className="font-mono text-[11px] tracking-widest text-console-muted">MIND PROFILE</div>
+        <p className="font-mono text-xs text-console-muted mt-1">
+          {xp} XP · {streakDays}D STREAK
         </p>
       </div>
       <MindProfile />
@@ -19,9 +19,9 @@ export function ProfilePage() {
         onClick={() => {
           if (confirm("Reset all progress? This cannot be undone.")) resetProfile();
         }}
-        className="text-sm text-slate-500 hover:text-rose-400"
+        className="font-mono text-[11px] tracking-widest text-console-muted hover:text-alarm transition"
       >
-        Reset progress
+        RESET PROGRESS
       </button>
     </div>
   );

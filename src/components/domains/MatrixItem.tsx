@@ -24,16 +24,13 @@ export function MatrixStimulus({ item, onReady }: MatrixStimulusProps) {
   }, [item.id, onReady]);
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <p className="text-sm text-slate-400">Which piece completes the pattern?</p>
-      <div className="grid grid-cols-3 gap-2 w-fit mx-auto">
+    <div className="flex flex-col items-center gap-3">
+      <p className="font-mono text-[11px] tracking-widest text-console-muted">WHICH PIECE COMPLETES THE PATTERN?</p>
+      <div className="grid grid-cols-3 gap-px bg-console-line w-fit mx-auto border border-console-line">
         {item.content.cells.map((row, r) =>
           row.map((cell, c) => (
-            <div
-              key={`${r}-${c}`}
-              className="w-20 h-20 rounded-lg border border-slate-700 bg-slate-800/60 flex items-center justify-center"
-            >
-              {cell ? <ComboCell combo={cell} /> : <span className="text-3xl text-slate-500">?</span>}
+            <div key={`${r}-${c}`} className="w-20 h-20 bg-console-panel2 flex items-center justify-center">
+              {cell ? <ComboCell combo={cell} /> : <span className="font-mono text-2xl text-console-muted">?</span>}
             </div>
           )),
         )}

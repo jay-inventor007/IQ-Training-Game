@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { DOMAINS, DOMAIN_LABELS, type Domain } from "@/engine/types";
+import { CHANNELS } from "@/theme/channels";
 import { DomainPicker } from "@/components/DomainPicker";
+import { ScopePanel } from "@/components/ScopePanel";
 import { useChallengeSession } from "@/hooks/useChallengeSession";
 import { ChallengeRunner } from "@/components/challenge/ChallengeRunner";
 
@@ -15,7 +17,9 @@ export function TrainingPage() {
   if (!isDomain(domain)) {
     return (
       <div>
-        <h1 className="text-xl font-semibold mb-4">Training — pick a domain</h1>
+        <div className="font-mono text-[11px] tracking-widest text-console-muted mb-2 px-1">
+          TRAINING MODE — SELECT A CHANNEL
+        </div>
         <DomainPicker basePath="/train" />
       </div>
     );
@@ -26,6 +30,7 @@ export function TrainingPage() {
 
 function TrainingSession({ domain }: { domain: Domain }) {
   const { currentItem, summary, start, submitResult } = useChallengeSession({ domain, mode: "training" });
+  const meta = CHANNELS[domain];
 
   useEffect(() => {
     start();
@@ -33,24 +38,27 @@ function TrainingSession({ domain }: { domain: Domain }) {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
-          <Link to="/train" className="text-sm text-slate-500 hover:text-slate-300">
-            ← Change domain
+          <Link to="/train" className="font-mono text-[11px] text-console-muted hover:text-console-text transition">
+            ← CHANGE CHANNEL
           </Link>
-          <h1 className="text-xl font-semibold mt-1">{DOMAIN_LABELS[domain]} — Training</h1>
+          <h1 className="flex items-center gap-2 mt-1">
+            <span className="font-mono text-sm font-semibold tracking-widest" style={{ color: meta.color }}>
+              {meta.code}
+            </span>
+            <span className="text-console-muted text-sm">{DOMAIN_LABELS[domain]} — Training</span>
+          </h1>
         </div>
-        <div className="text-sm text-slate-400 text-right">
+        <div className="font-mono text-xs text-console-muted text-right shrink-0">
           <div>
-            {summary.correctCount} / {summary.itemsAnswered} correct
+            <span className="tabular-nums text-console-text">{summary.correctCount}</span> / {summary.itemsAnswered} correct
           </div>
           {summary.itemsAnswered > 0 && <div>{Math.round(summary.averageResponseTimeMs)} ms avg</div>}
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
-        {currentItem && <ChallengeRunner item={currentItem} onComplete={submitResult} />}
-      </div>
+      <ScopePanel>{currentItem && <ChallengeRunner item={currentItem} onComplete={submitResult} />}</ScopePanel>
     </div>
   );
 }

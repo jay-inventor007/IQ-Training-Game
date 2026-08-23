@@ -1,12 +1,12 @@
 {
-  "name": "Cognitive Trainer",
-  "short_name": "Cognitive Trainer",
-  "description": "Adaptive cognitive training across fluid reasoning, working memory, spatial reasoning, processing speed, and quantitative reasoning.",
+  "name": "COGNOSCOPE",
+  "short_name": "COGNOSCOPE",
+  "description": "An adaptive cognitive training instrument across fluid reasoning, working memory, spatial reasoning, processing speed, and quantitative reasoning.",
   "start_url": "/IQ-Training-Game/",
   "scope": "/IQ-Training-Game/",
   "display": "standalone",
-  "background_color": "#020617",
-  "theme_color": "#020617",
+  "background_color": "#05080a",
+  "theme_color": "#05080a",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },

@@ -1,5 +1,6 @@
 import type { ChallengeItem, ChallengeOption, Generator } from "../types";
 import { randInt, pick, shuffle } from "@/lib/random";
+import { MOTIF_COLORS } from "@/theme/motifs";
 
 /**
  * Fluid reasoning: a 3x3 abstract matrix (Raven's-style). One or more visual
@@ -23,7 +24,7 @@ export interface MatrixContent {
 }
 
 const SHAPES: ShapeKind[] = ["circle", "square", "triangle", "star", "hexagon", "diamond"];
-const COLORS = ["#ef4444", "#3b82f6", "#22c55e", "#eab308", "#a855f7", "#06b6d4"];
+const COLORS = [...MOTIF_COLORS];
 const COUNTS = [1, 2, 3];
 const ROTATIONS = [0, 90, 180, 270];
 

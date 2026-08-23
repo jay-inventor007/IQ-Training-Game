@@ -17,15 +17,15 @@ export function DiscriminationStimulus({ item, onReady }: DiscriminationStimulus
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <p className="text-sm text-slate-400">{ruleLabel}</p>
+      <p className="font-mono text-[11px] tracking-widest text-console-muted uppercase">{ruleLabel}</p>
       <div className="flex items-center gap-8">
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-xs uppercase tracking-wide text-slate-500">Target</span>
+        <div className="flex flex-col items-center gap-2 border border-console-line px-5 py-4">
+          <span className="font-mono text-[10px] tracking-widest text-console-muted">TARGET</span>
           <ShapeIcon shape={target.shape} color={target.color} rotation={0} size={48} />
         </div>
-        <span className="text-2xl text-slate-600">vs</span>
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-xs uppercase tracking-wide text-slate-500">Stimulus</span>
+        <span className="font-mono text-xs text-console-muted">VS</span>
+        <div className="flex flex-col items-center gap-2 border border-console-line px-5 py-4">
+          <span className="font-mono text-[10px] tracking-widest text-console-muted">STIMULUS</span>
           <ShapeIcon shape={stimulus.shape} color={stimulus.color} rotation={0} size={48} />
         </div>
       </div>

@@ -1,4 +1,5 @@
 import type { ShapeKind } from "@/engine/generators/fluidReasoning";
+import { patternForColor } from "@/theme/motifs";
 
 function ShapePath({ shape }: { shape: ShapeKind }) {
   switch (shape) {
@@ -27,15 +28,17 @@ interface ShapeIconProps {
 }
 
 export function ShapeIcon({ shape, color, rotation, size = 28 }: ShapeIconProps) {
+  const pattern = patternForColor(color);
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill={color}
-      style={{ transform: `rotate(${rotation}deg)` }}
-    >
-      <ShapePath shape={shape} />
+    <svg width={size} height={size} viewBox="0 0 24 24" style={{ transform: `rotate(${rotation}deg)` }}>
+      <g fill={color}>
+        <ShapePath shape={shape} />
+      </g>
+      {pattern && (
+        <g fill={`url(#${pattern})`}>
+          <ShapePath shape={shape} />
+        </g>
+      )}
     </svg>
   );
 }

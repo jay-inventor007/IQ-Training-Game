@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ComponentType } from "react";
 import type { ChallengeItem, ChallengeResult, Domain } from "@/engine/types";
+import { CHANNELS, ALARM_COLOR } from "@/theme/channels";
 import { OptionGrid } from "./OptionGrid";
 import { TimerBar } from "./TimerBar";
 import { MatrixStimulus } from "@/components/domains/MatrixItem";
@@ -80,23 +81,35 @@ function ChallengeRunnerInner({ item, onComplete }: ChallengeRunnerProps) {
   }, [optionsReady, item.timeLimitMs, feedback, submit]);
 
   const StimulusView = STIMULUS_VIEWS[item.domain];
+  const channelColor = CHANNELS[item.domain].color;
 
   return (
-    <div>
+    <div className={`relative ${feedback && !feedback.correct ? "animate-flatline" : ""}`}>
+      {feedback && (
+        <div
+          className="pointer-events-none absolute inset-0 animate-pulse-flash"
+          style={{ backgroundColor: feedback.correct ? channelColor : ALARM_COLOR, opacity: 0 }}
+          aria-hidden="true"
+        />
+      )}
       <StimulusView item={item} onReady={handleReady} />
       {optionsReady && (
         <>
-          {item.timeLimitMs != null && <TimerBar remainingMs={remainingMs} totalMs={item.timeLimitMs} />}
+          {item.timeLimitMs != null && <TimerBar remainingMs={remainingMs} totalMs={item.timeLimitMs} color={channelColor} />}
           <OptionGrid
             item={item}
             onSelect={(id) => submit(id, false)}
             disabled={!!feedback}
             revealCorrectId={feedback ? item.correctOptionId : null}
             selectedId={feedback?.selectedOptionId ?? null}
+            channelColor={channelColor}
           />
           {feedback && (
-            <p className={`mt-3 text-sm font-medium ${feedback.correct ? "text-emerald-400" : "text-rose-400"}`}>
-              {feedback.correct ? "Correct" : "Not quite"}
+            <p
+              className="mt-3 font-mono text-xs tracking-widest"
+              style={{ color: feedback.correct ? channelColor : ALARM_COLOR }}
+            >
+              {feedback.correct ? "◆ CONFIRMED" : "✕ REJECTED"}
             </p>
           )}
         </>

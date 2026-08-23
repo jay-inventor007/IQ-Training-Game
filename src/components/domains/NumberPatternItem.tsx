@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import type { ChallengeItem } from "@/engine/types";
 import type { NumberSequenceContent } from "@/engine/generators/quantitativeReasoning";
+import { CHANNELS } from "@/theme/channels";
+
+const QNT_COLOR = CHANNELS.quantitativeReasoning.color;
 
 interface NumberPatternStimulusProps {
   item: ChallengeItem<NumberSequenceContent>;
@@ -13,15 +16,15 @@ export function NumberPatternStimulus({ item, onReady }: NumberPatternStimulusPr
   }, [item.id, onReady]);
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <p className="text-sm text-slate-400">What comes next?</p>
-      <div className="flex items-center gap-3 flex-wrap justify-center">
+    <div className="flex flex-col items-center gap-3">
+      <p className="font-mono text-[11px] tracking-widest text-console-muted">WHAT COMES NEXT?</p>
+      <div className="flex items-center gap-px bg-console-line border border-console-line flex-wrap justify-center">
         {item.content.sequence.map((v, i) => (
-          <span key={i} className="text-2xl font-mono bg-slate-800 border border-slate-700 rounded-lg px-3 py-2">
+          <span key={i} className="text-xl font-mono tabular-nums bg-console-panel2 px-4 py-3">
             {v}
           </span>
         ))}
-        <span className="text-2xl font-mono bg-slate-800 border border-cyan-500 text-cyan-400 rounded-lg px-3 py-2">
+        <span className="text-xl font-mono px-4 py-3" style={{ backgroundColor: `${QNT_COLOR}22`, color: QNT_COLOR }}>
           ?
         </span>
       </div>
